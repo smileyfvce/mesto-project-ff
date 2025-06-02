@@ -8,7 +8,7 @@ const placesList = document.querySelector('.places__list');
 
   // @todo: Функция создания карточки
 
-function createCard(item, deleteCard) {
+const createCard = (item, deleteCard) => {
   const placesItem = cardTemplate.querySelector('.places__item').cloneNode(true);
   const deleteButton = placesItem.querySelector('.card__delete-button');
   
@@ -25,7 +25,7 @@ function createCard(item, deleteCard) {
 
   // @todo: Функция удаления карточки
 
-function deleteCard(placesItem) {
+const deleteCard = (placesItem) => {
   placesItem.remove()
 };
 
