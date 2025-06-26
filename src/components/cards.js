@@ -2,6 +2,7 @@
 //  из него должна экспортироваться функция createCard, которую вы создали раньше 
 //  (у вас она может называться по-другому). Функции, обрабатывающие события лайка и удаления карточки,
 //  также должны находиться в этом файле и экспортироваться из него.
+export { createCard, deleteCard };
 
 const initialCards = [
     {
@@ -40,10 +41,10 @@ const placesList = document.querySelector('.places__list');
 
 // Функция создания карточки
 
-const createCard = (item, deleteCard) => {
+  const createCard = (item, deleteCard) => {
   const placesItem = cardTemplate.querySelector('.places__item').cloneNode(true);
   const deleteButton = placesItem.querySelector('.card__delete-button');
-  
+  const likeButton = placesItem.querySelector('.card__like-button');
   placesItem.querySelector('.card__title').textContent = item.name;
   placesItem.querySelector('.card__image').src = item.link;
   placesItem.querySelector('.card__image').alt = `Фотография места: ${item.name}`;
