@@ -1,19 +1,35 @@
 //Тут будет работа модальных окон. Нужно будет экспортировать openModal и closeModal
 
-// функция открытия и закрытия попапа
+// открытие попапа
 
 export function openModal(popupItem) {
-  popupItem.classList.add('popup_is-opened');
+  popupItem.classList.add("popup_is-opened");
   document.addEventListener("keydown", closeEscape);
+  document.addEventListener("mousedown", closeOverlay);
 }
 
-function closeModal(popupItem) {
-  popupItem.classList.remove('popup_is-opened');
+// закрытие попапа
+
+export function closeModal(popupItem) {
+  popupItem.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeEscape);
+  document.removeEventListener("mousedown", closeOverlay);
 }
+
+// закрыть через Esc
 
 function closeEscape(evt) {
   if (evt.key === "Escape") {
-    closeModal(popupItem);
+    const openClassModal = document.querySelector(".popup_is-opened");
+    closeModal(openClassModal);
+  }
+}
+
+// закрыть по оверлею
+
+function closeOverlay(evt) {
+  const openClassModal = document.querySelector(".popup_is-opened");
+  if (evt.target === openClassModal) {
+    closeModal(openClassModal);
   }
 }
