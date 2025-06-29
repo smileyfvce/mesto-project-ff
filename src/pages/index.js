@@ -14,19 +14,26 @@ import "../components/modal.js";
 // Импорт функций
 
 import { openModal, closeModal } from "../components/modal.js";
-import { initialCards, placesList, createCard, deleteCard, likedCard  } from "../components/cards.js";
+import {
+  initialCards,
+  placesList,
+  createCard,
+  deleteCard,
+  likedCard,
+} from "../components/cards.js";
 
 // Переменные редактора профиля
 
 const profileName = document.querySelector(".profile__title");
 const profileJob = document.querySelector(".profile__description");
 const popupEditProfile = document.querySelector(".popup_type_edit");
-const formElement = document.querySelector(".popup__form");
+const formElement = document.forms["edit-profile"];
 const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_description");
 
 // Переменные добавления карточки
 
+const formElementAddCard = document.forms["new-place"];
 const popupAddNewCard = document.querySelector(".popup_type_new-card");
 const popupInputCardName = document.querySelector(
   ".popup__input_type_card-name"
@@ -35,28 +42,24 @@ const popupInputUrl = document.querySelector(".popup__input_type_url");
 
 // Переменные попапа картинки
 
-const popupImage = document.querySelector('.popup_type_image');
-const imageCard = document.querySelector('.popup__image');
-const captionCard = document.querySelector('.popup__caption');
+const popupImage = document.querySelector(".popup_type_image");
+const imageCard = document.querySelector(".popup__image");
+const captionCard = document.querySelector(".popup__caption");
 
 // кнопки
 
 const profileEditBtn = document.querySelector(".profile__edit-button");
 const popupCloseBtns = document.querySelectorAll(".popup__close");
-const mestoAddBtn = document.querySelector(".profile__add-button");
+const cardAddBtn = document.querySelector(".profile__add-button");
 
 // кнопки закрытия попапов
 
-popupCloseBtns.forEach( button => {
-  button.addEventListener('click', () => {
-    const popupItem = button.closest('.popup')
-    closeModal(popupItem)
-  })
+popupCloseBtns.forEach((button) => {
+  button.addEventListener("click", () => {
+    const popupItem = button.closest(".popup");
+    closeModal(popupItem);
+  });
 });
-
-// Создание карточек
-
-
 
 // Функция редактора профиля
 
@@ -75,14 +78,33 @@ profileEditBtn.addEventListener("click", () => openModal(popupEditProfile));
 
 formElement.addEventListener("submit", handleFormSubmit);
 
-// попап добавления карточки
+// попап добавления карточки!!!!!
 
+function addCard(evt) {
+  evt.preventDefault();
 
+  const nameImage = popupInputCardName.value;
+  const linkImage = popupInputUrl.value;
+
+  const card = createCard(
+    {
+      name: nameImage,
+      link: linkImage,
+    },
+    deleteCard,
+    likedCard,
+    openImage
+  );
+
+  placesList.prepend(card);
+  formElementAddCard.reset()
+  closeModal(popupAddNewCard);
+}
 
 // слушатели добавления карточки
 
-mestoAddBtn.addEventListener("click", () => openModal(popupAddNewCard));
-
+cardAddBtn.addEventListener("click", () => openModal(popupAddNewCard));
+formElementAddCard.addEventListener("submit", addCard);
 
 // Вывести карточки на страницу
 
@@ -97,5 +119,5 @@ function openImage(name, link) {
   imageCard.src = link;
   imageCard.alt = name;
   captionCard.textContent = name;
-  openModal(popupImage)
-};
+  openModal(popupImage);
+}

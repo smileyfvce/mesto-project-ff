@@ -1,4 +1,4 @@
-export { initialCards , placesList, createCard, deleteCard, likedCard };
+export { initialCards, placesList, createCard, deleteCard, likedCard };
 
 const initialCards = [
   {
@@ -57,7 +57,9 @@ const createCard = (item, deleteCard, likedCard, openImage) => {
 
   // слушатель картинки
 
-  cardImage.addEventListener("click", () => openImage(cardTitle.textContent, cardImage.src));
+  cardImage.addEventListener("click", () =>
+    openImage(cardTitle.textContent, cardImage.src)
+  );
 
   // слушатель лайка
 

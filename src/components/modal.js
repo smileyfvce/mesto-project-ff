@@ -4,6 +4,7 @@
 
 export function openModal(popupItem) {
   popupItem.classList.add("popup_is-opened");
+  popupItem.classList.add("popup_is-animated");
   document.addEventListener("keydown", closeEscape);
   document.addEventListener("mousedown", closeOverlay);
 }
