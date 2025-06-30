@@ -6,7 +6,7 @@ export function openModal(popupItem) {
   popupItem.classList.add("popup_is-opened");
   popupItem.classList.add("popup_is-animated");
   document.addEventListener("keydown", closeEscape);
-  document.addEventListener("mousedown", closeOverlay);
+  popupItem.addEventListener("mousedown", closeOverlay);
 }
 
 // закрытие попапа
@@ -14,7 +14,7 @@ export function openModal(popupItem) {
 export function closeModal(popupItem) {
   popupItem.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeEscape);
-  document.removeEventListener("mousedown", closeOverlay);
+  popupItem.removeEventListener("mousedown", closeOverlay);
 }
 
 // закрыть через Esc
@@ -29,8 +29,7 @@ function closeEscape(evt) {
 // закрыть по оверлею
 
 function closeOverlay(evt) {
-  const openClassModal = document.querySelector(".popup_is-opened");
-  if (evt.target === openClassModal) {
-    closeModal(openClassModal);
+  if (evt.target === evt.currentTarget) {
+    closeModal(evt.currentTarget);
   }
 }

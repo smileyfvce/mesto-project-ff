@@ -8,32 +8,38 @@
 import "./index.css";
 
 // Подключаю модули
+import '../components/card.js';
 import "../components/cards.js";
 import "../components/modal.js";
 
 // Импорт функций
 
 import { openModal, closeModal } from "../components/modal.js";
+import { initialCards } from '../components/cards.js';
 import {
-  initialCards,
-  placesList,
   createCard,
   deleteCard,
   likedCard,
-} from "../components/cards.js";
+} from "../components/card.js";
+
+// DOM узлы
+
+const placesList = document.querySelector(".places__list");
+
+
 
 // Переменные редактора профиля
 
 const profileName = document.querySelector(".profile__title");
 const profileJob = document.querySelector(".profile__description");
 const popupEditProfile = document.querySelector(".popup_type_edit");
-const formElement = document.forms["edit-profile"];
+const formEditProfile = document.forms["edit-profile"];
 const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_description");
 
 // Переменные добавления карточки
 
-const formElementAddCard = document.forms["new-place"];
+const formAddCard = document.forms["new-place"];
 const popupAddNewCard = document.querySelector(".popup_type_new-card");
 const popupInputCardName = document.querySelector(
   ".popup__input_type_card-name"
@@ -63,8 +69,8 @@ popupCloseBtns.forEach((button) => {
 
 // Функция редактора профиля
 
-function handleFormSubmit(evt) {
-  evt.preventDefault();
+function createProfileSubmit(event) {
+  event.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closeModal(popupEditProfile);
@@ -72,20 +78,21 @@ function handleFormSubmit(evt) {
 
 // открываем редактор профиля
 
-profileEditBtn.addEventListener("click", () => openModal(popupEditProfile));
+profileEditBtn.addEventListener("click", () => { 
+  nameInput.value =  profileName.textContent;
+  jobInput.value = profileJob.textContent;
+  openModal(popupEditProfile)});
 
 // слушаем форму
 
-formElement.addEventListener("submit", handleFormSubmit);
+formEditProfile.addEventListener("submit", createProfileSubmit);
 
 // попап добавления карточки!!!!!
 
 function addCard(evt) {
-  evt.preventDefault();
-
+  
   const nameImage = popupInputCardName.value;
   const linkImage = popupInputUrl.value;
-
   const card = createCard(
     {
       name: nameImage,
@@ -95,16 +102,17 @@ function addCard(evt) {
     likedCard,
     openImage
   );
-
+  
   placesList.prepend(card);
-  formElementAddCard.reset()
+  formAddCard.reset()
+  evt.preventDefault();
   closeModal(popupAddNewCard);
 }
 
 // слушатели добавления карточки
 
 cardAddBtn.addEventListener("click", () => openModal(popupAddNewCard));
-formElementAddCard.addEventListener("submit", addCard);
+formAddCard.addEventListener("submit", addCard);
 
 // Вывести карточки на страницу
 
