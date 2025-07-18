@@ -38,7 +38,7 @@ const deleteCard = (placesItem) => {
 
 // Функция лайка
 
-function likedCard(card) {
+const likedCard = (card) => {
   if (card.target.classList.contains("card__like-button")) {
     card.target.classList.toggle("card__like-button_is-active");
   }

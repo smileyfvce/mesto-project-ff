@@ -1,34 +1,26 @@
-// В файле index.js должны остаться:
-// объявления и инициализация глобальных констант и переменных с DOM-элементами страницы,
-// обработчики событий (при открытии и закрытии попапов;
-// при отправке форм; обработчик, открывающий попап при клике по изображению карточки);
-// вызовы других функций, подключённых из созданных модулей,
-// которым нужно будет передавать объявленные здесь переменные и обработчики.
-
+// подключа стили
 import "./index.css";
 
 // Подключаю модули
 import '../components/card.js';
 import "../components/cards.js";
 import "../components/modal.js";
+import "../components/validation.js";
+
 
 // Импорт функций
 
 import { openModal, closeModal } from "../components/modal.js";
 import { initialCards } from '../components/cards.js';
-import {
-  createCard,
-  deleteCard,
-  likedCard,
-} from "../components/card.js";
+import { createCard, deleteCard, likedCard } from "../components/card.js";
+import { enableValidation, clearValidation, validationConfig } from "../components/validation.js";
+
 
 // DOM узлы
 
 const placesList = document.querySelector(".places__list");
 
-
-
-// Переменные редактора профиля
+ // Переменные редактора профиля
 
 const profileName = document.querySelector(".profile__title");
 const profileJob = document.querySelector(".profile__description");
@@ -58,6 +50,10 @@ const profileEditBtn = document.querySelector(".profile__edit-button");
 const popupCloseBtns = document.querySelectorAll(".popup__close");
 const cardAddBtn = document.querySelector(".profile__add-button");
 
+// все настройки передаются при вызове
+
+enableValidation(validationConfig);
+
 // кнопки закрытия попапов
 
 popupCloseBtns.forEach((button) => {
@@ -81,13 +77,14 @@ function createProfileSubmit(event) {
 profileEditBtn.addEventListener("click", () => { 
   nameInput.value =  profileName.textContent;
   jobInput.value = profileJob.textContent;
+  clearValidation(popupEditProfile, validationConfig);
   openModal(popupEditProfile)});
 
 // слушаем форму
 
 formEditProfile.addEventListener("submit", createProfileSubmit);
 
-// попап добавления карточки!!!!!
+// попап добавления карточки
 
 function addCard(evt) {
   
@@ -111,7 +108,10 @@ function addCard(evt) {
 
 // слушатели добавления карточки
 
-cardAddBtn.addEventListener("click", () => openModal(popupAddNewCard));
+cardAddBtn.addEventListener("click", () => {
+  clearValidation(popupAddNewCard, validationConfig);
+  openModal(popupAddNewCard);
+});
 formAddCard.addEventListener("submit", addCard);
 
 // Вывести карточки на страницу
@@ -128,4 +128,4 @@ function openImage(name, link) {
   imageCard.alt = name;
   captionCard.textContent = name;
   openModal(popupImage);
-}
+} 
